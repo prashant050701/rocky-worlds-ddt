@@ -24,7 +24,14 @@ sky annulus from 12 to 32 px. Apertures 4, 5, 6, 8 and 10 px were run for all fo
 4 px is the unsuffixed file, for example `S3_gj_e01.ecf`.
 
 The `inputdir` and `outputdir` entries in these files are absolute paths under my own home
-directory and have to be edited before they will run anywhere else.
+directory and have to be edited before they will run anywhere else. `joint_fit.py` line 11
+likewise hardcodes `WORK_DIR` to `~/PycharmProjects/DDTChallenge/fulldata`, so
+`make_submission_ecc.py` writes its archive there rather than into this repository. Edit that
+line before running it.
+
+`ts/` holds the reduced light curves the fits read, and `eureka/` holds the twenty GJ S3
+`SpecData.h5` products, so the fits and the LHS submission build run without redoing the
+reduction.
 
 ## Rebuilding the submitted archives
 
@@ -86,9 +93,11 @@ hours, the joint timing solution, leaving 33,900 samples at 55.21 ppm with sd 13
 `make_submission_ecc.py` built the LHS submission archive from that slice and set the LHS
 form text.
 
-`lhs_slice.py` is a reconstruction. The original slicing script was overwritten during the
-competition. It reproduces every array of the saved slice exactly, but it is not the code
-that ran.
+`make_submission_ecc.py` is the original script behind submission 54367527 of 5 July, which
+carried the fit output with no adjustment and scored 3.320 public and 3.895 private.
+`lhs_slice.py` is the one reconstructed step: the original slicing script was overwritten
+during the competition, and this reproduces every array of the saved slice exactly. The slice
+itself is committed, so it is not needed to rebuild the archive.
 
 The submitted LHS marginal is a normal quantile grid, mean 57.04 ppm and sd 11.40 ppm,
 written by `build_v19.py` with both constants hardcoded at the top. Centre and width were
