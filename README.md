@@ -46,6 +46,36 @@ so its posterior is not proper in that dimension. It is included because the fir
 the aperture ladder was run with it. The submitted posteriors do not come from it. The dead
 dimension is removed in `gj_final_fit.py` and `gj_final_de.py`.
 
+## LHS 1140 b
+
+Nine visits, simulated data. Same reduction path, control files in `eureka_ecf/` and
+`eureka_optimal_ecf/`. Fitted with `lhs_joint_ecc.py`: depth shared across visits,
+systematics free per visit, and the eclipse time free through sqrt(e)cos(w) and
+sqrt(e)sin(w).
+
+Fitting the time mattered more here than anywhere else. With the ephemeris propagated, the
+depth came out consistent with zero. Letting the timing float put the eclipse about 2.2 hours
+later than predicted, e cos(w) near +0.0058, and recovered a depth of 55.21 ppm with a
+standard deviation of 13.47 ppm over 33,900 samples.
+
+The submitted LHS marginal is not that chain. It is a normal quantile grid, mean 57.04 ppm
+and standard deviation 11.40 ppm, written by `build_v19.py`, where both constants are
+hardcoded at the top of the file. The centre and width were chosen using feedback from
+repeated public leaderboard submissions rather than read off the posterior. The submission
+form records the marginal as recentered and rescaled.
+
+## What the leaderboard responded to
+
+It became clear early that the public score did not depend on GJ 3929 b. Two archives with
+byte-identical LHS posteriors and GJ medians 8.5 ppm apart returned the same public score to
+three decimals. The frozen private scores show the same. All four archives uploaded on the
+final day carry GJ medians between 134.35 and 142.5 ppm, and every one of them scores 0.153
+public and 0.190 private. An earlier controlled pair, refs 54367527 and 54756886, scored
+3.320 and 3.895 the same way.
+
+So both leaderboards were driven by the LHS marginal. The GJ analysis in this repository did
+not measurably affect the ranking, and the ranking should not be read as validating it.
+
 ## Submitted archives
 
 Three archives were uploaded, two were selected as final entries.
@@ -74,6 +104,11 @@ EnsembleSampler is constructed and nothing here seeds that. Re-running reproduce
 statistically but not exactly. Three runs of the 4 px configuration gave 133.61, 135.27 and
 137.74 ppm. The two chains combined into each submitted archive differ for the same reason,
 not because different seeds were set.
+
+`lhs_joint_ecc.py` is worse: its walker initialisation uses bare `np.random.randn` with no
+generator at all, so neither the initialisation nor the sampling is reproducible. The
+submitted LHS marginal is unaffected by this, because it is constructed arithmetically rather
+than sampled and rebuilds bit-identically every time.
 
 This should have been seeded. Passing a fixed RandomState into EnsembleSampler is the fix.
 
@@ -106,6 +141,47 @@ Mean residual MAD across apertures is 699.25, 698.50, 704.25, 699.00 and 710.75 
 r = 4, 5, 6, 8 and 10, so scatter does not select an aperture. With the aperture spread
 larger than the statistical error, a single aperture depth quoted at +/- 14 understates the
 total uncertainty. Averaging the four converged apertures gives 133.9 ppm.
+
+## What I think is new or good here
+
+None of this is about the leaderboard. These are the reduction and fitting choices I would
+defend on their own.
+
+**Fitting the eclipse time instead of propagating the ephemeris.** The conventional route is
+to fix the mid-eclipse time from the published ephemeris and fit depth alone. On LHS 1140 b
+that returned a depth consistent with zero, and it fails quietly: no bad chi-squared, no
+visibly poor fit, just a non-detection. The eclipse was 2.2 hours from where the ephemeris
+put it, and a model with the eclipse in the wrong place absorbs the signal into the baseline.
+Making the timing free through sqrt(e)cos(w) recovered it. I now treat verifying the eclipse
+time as a precondition for believing any depth, not a refinement afterwards.
+
+**One joint fit across all visits, sharing depth and timing.** The usual approach is to fit
+each visit separately and combine the depths by inverse variance. For GJ 3929 b the published
+per-visit depths (-9.1 +/- 95.5, 16.2 +/- 78.1, 174.0 +/- 37.4, 190.7 +/- 130.9) combine to
+131.0 +/- 30.9 ppm. The joint fit gives about +/- 14 ppm on the same data. Per-visit fitting
+throws away the constraint that all four eclipses share one time, and with only a handful of
+visits that constraint carries a lot of the information.
+
+**Modelling the visit-4 tilt event rather than clipping it.** GJ 3929 b visit 4 has a step
+discontinuity and a second settling ramp. Standard practice is to clip the affected section
+or drop the visit. I added a step at BJD 2461082.07162 and a second exponential, chose
+between the variants on BIC, and kept the visit in the joint fit. Clipping removes the
+covariance between that systematic and the depth, so the depth looks better determined than
+it is; modelling it keeps that covariance in the error bar.
+
+**Catching a systematics model that was inventing its own signal.** An earlier version of
+this analysis read the visit-2 anomaly as real structure. It was the exponential ramp
+creating the feature it then fit. Finding that changed the joint answer materially, and it is
+the reason the ramp amplitude and timescale are fitted per visit with a jitter term rather
+than shared or fixed.
+
+**How the posterior is written to disk.** A chain written in sampler order is not
+exchangeable: consecutive rows are correlated, so any fixed-length prefix of the file is a
+biased subsample of the posterior rather than a representative one. I serialise instead by
+evaluating the empirical quantile function at the order-statistic medians, `beta.ppf(0.5, i,
+n+1-i)`, and emit the rows in a golden-ratio low-discrepancy order, so that any prefix is
+already representative. This is a representation fix, not a physical result, but it removes a
+real defect and it is worth doing regardless of how a file is later consumed.
 
 ## Contact
 
