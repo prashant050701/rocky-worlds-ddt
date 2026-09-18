@@ -102,8 +102,7 @@ There is no detectable GJ 3929 b contribution to either displayed score. The fou
 above span GJ medians 134.35 to 142.5 ppm and every one scored 0.153 public and 0.190
 private. An earlier controlled pair, refs 54367527 and 54756886, both scored 3.320 and 3.895
 across a GJ-only change. Kaggle reports three decimals, so a contribution below that cannot
-be excluded, but the ranking was determined by the LHS marginal and says nothing about the GJ
-analysis here.
+be excluded. The ranking was determined by the LHS marginal.
 
 I think the metric is consistent with a Wasserstein-1 comparison on the first 10,000 rows of
 `depth_ecl` against a hidden reference. That is inferred from how submissions scored. The
@@ -142,7 +141,8 @@ substantially improves depth mixing with no other change. Logs in `logs/`.
 Even under DE only r = 4 px clears 50 autocorrelation times on every parameter. The depth
 clears it at r = 5 and r = 8, but 18 and 19 nuisance parameters do not; at r = 6 the depth
 itself reaches only 43.2, and 30 nuisance parameters fall short. r = 10 reaches n_tau 20 at
-acceptance 0.020 and is not converged. So these are better mixed, not converged.
+acceptance 0.020 and is not converged. The DE runs are better mixed without being
+converged.
 
 Three things follow. The stretch-move error bars are about 50 per cent wider than the DE
 ones. The aperture spread of the stretch runs is 4.7 ppm, against 14.43 ppm for r = 4 to 8
