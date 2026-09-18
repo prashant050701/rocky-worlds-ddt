@@ -3,9 +3,10 @@
 Analysis code, Eureka! control files and saved chains for my submissions (GJ 3929 b,
 LHS 1140 b, MIRI F1500W secondary eclipses).
 
-Raw and reduced photometry are not included; the download and reduction scripts are here and
-the products come from MAST. Saved intermediate artifacts are included, because the samplers
-were not seeded and the chains cannot be regenerated bit for bit.
+Raw uncal data is not included; it comes from the challenge Kaggle datasets
+`stsci/rocky-worlds-gj-3929b-observations` and `stsci/rocky-worlds-lhs-1140b-simulations`,
+and the download scripts are here. Reduced products and saved chains are included, because
+the samplers were not seeded and the chains cannot be regenerated bit for bit.
 
 ## Environment
 
@@ -14,9 +15,19 @@ emcee 3.1.6, numpy 1.26.4, scipy 1.17.0, batman 2.5.1, h5py 3.15.1, python 3.13.
 
 ## Reduction
 
-    python download_gj_uncal.py
+There are two reduction paths and the two planets use different ones.
+
+    python download_gj_uncal.py        # uncal from the challenge Kaggle dataset
     python download_lhs_uncal.py
-    python download_and_reduce.py
+    python download_and_reduce.py      # own aperture photometry -> ts/*.txt
+
+`download_and_reduce.py` does its own centroiding and aperture photometry and writes the time
+series in `ts/`. `lhs_joint_ecc.py` reads those, so the LHS 1140 b result comes from this
+path. The three download scripts read `manifest.csv` from the challenge tutorial repository
+(`rocky_worlds/manifests/<target>/`), which is not included here.
+
+GJ 3929 b instead uses Eureka! S1-S3, driven by the control files below, producing the
+`SpecData.h5` products in `eureka/` that `gj_final_fit.py` reads.
 
 Control files: `ecf/` stage templates, `eureka_ecf/` per visit S1-S3, `eureka_optimal_ecf/`
 LHS optimal extraction. `S3_gj_e04_ap5.ecf` sets `photap 5`, `skyin 12`, `skywidth 20`, so a
