@@ -15,8 +15,9 @@ Eureka! S1-S3, CRDS jwst_1348.pmap, batman, emcee 3.1.6, numpy, scipy, h5py.
     python download_and_reduce.py
 
 Control files: `ecf/` stage templates, `eureka_ecf/` per visit S1-S3, `eureka_optimal_ecf/`
-LHS optimal extraction. `S3_gj_e04_ap5.ecf` sets `photap 5`, `skyin 12`, `skyout 32`.
-Apertures 4, 5, 6, 8 and 10 px were run for all four GJ visits.
+LHS optimal extraction. `S3_gj_e04_ap5.ecf` sets `photap 5`, `skyin 12`, `skywidth 20`, so a
+sky annulus from 12 to 32 px. Apertures 4, 5, 6, 8 and 10 px were run for all four GJ visits;
+4 px is the unsuffixed file, for example `S3_gj_e01.ecf`.
 
 ## Fits
 
@@ -50,23 +51,23 @@ which its form states. It was a hedge. The other two are my own reduction throug
 ## LHS 1140 b
 
 Nine visits, simulated. Fitted with `lhs_joint_ecc.py`: depth shared, systematics per visit,
-eclipse time free through sqrt(e)cos(w) and sqrt(e)sin(w). Result 55.21 ppm, sd 13.47, over
-33,900 samples, with the eclipse 2.2 h later than the propagated ephemeris.
+eclipse time free through sqrt(e)cos(w) and sqrt(e)sin(w). The full chain is 79,200 samples
+with median 52.05 ppm, and puts the eclipse about 2.2 h later than the propagated ephemeris.
+`lhs_slice.py` keeps the rows with the eclipse offset `dt_h` between 2.17 and 2.23 hours, the
+joint timing solution, leaving 33,900 samples at 55.21 ppm with sd 13.47.
+`make_submission_ecc.py` builds the LHS submission archive from that slice and sets the LHS
+form text.
 
-`lhs_joint_ecc.py` produces `chains/lhs_joint_ecc_chain.npz`, 79,200 samples, median 52.05
-ppm. `lhs_slice.py` then keeps the rows with the eclipse offset `dt_h` between 2.17 and 2.23
-hours, which is the joint timing solution, leaving 33,900 samples at 55.21 ppm with sd 13.47.
-`make_submission_ecc.py` builds the LHS submission archive from that and sets the LHS form
-text. Both chain files are in `chains/` because the fits are not seeded and cannot be
-regenerated bit for bit; `lhs_slice.py` does regenerate the slice exactly from the parent.
-`chains/cand_v15_hedge.zip` is likewise included because the builders below start from it and
-its own producer is gone.
+`chains/lhs_joint_ecc_chain.npz` is included because the fits are not seeded and cannot be
+regenerated bit for bit. `lhs_slice.py` reproduces the slice from it exactly.
+`chains/cand_v15_hedge.zip` is included because the builders below start from it and its own
+producer no longer exists.
 
 The submitted LHS marginal is a normal quantile grid, mean 57.04 ppm and sd 11.40 ppm,
 written by `build_v19.py` with both constants hardcoded at the top. Centre and width were
 chosen using feedback from repeated public leaderboard submissions. The form records the
-marginal as recentered and rescaled. For context, the fit above reached 55.21 on its own,
-1.9 ppm from the submitted centre and 0.14 sigma of its own width.
+marginal as recentered and rescaled. The fit above reached 55.21 on its own, 1.9 ppm from the
+submitted centre and 0.14 sigma of its own width.
 
 ## What the leaderboard responded to
 

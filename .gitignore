@@ -3,3 +3,4 @@ __pycache__/
 *.npz
 *.h5
 *.zip
+chains/lhs_slice_chain.npz
