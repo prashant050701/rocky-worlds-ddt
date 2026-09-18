@@ -53,6 +53,14 @@ Nine visits, simulated. Fitted with `lhs_joint_ecc.py`: depth shared, systematic
 eclipse time free through sqrt(e)cos(w) and sqrt(e)sin(w). Result 55.21 ppm, sd 13.47, over
 33,900 samples, with the eclipse 2.2 h later than the propagated ephemeris.
 
+`make_submission_ecc.py` built the LHS submission archive from `chains/lhs_slice_chain.npz`
+(33,900 samples, 48 columns) and set the LHS form text. The script that produced that chain
+file was overwritten later in the competition and no longer exists, so the chain itself is
+included here instead. `lhs_joint_ecc.py` is the same model under a different configuration
+and gives 52.05 ppm with sd 17.01, so it does not reproduce the 55.21 figure on its own.
+`chains/cand_v15_hedge.zip` is likewise included because the builders below start from it and
+its own producer is gone.
+
 The submitted LHS marginal is a normal quantile grid, mean 57.04 ppm and sd 11.40 ppm,
 written by `build_v19.py` with both constants hardcoded at the top. Centre and width were
 chosen using feedback from repeated public leaderboard submissions. The form records the
