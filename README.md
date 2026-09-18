@@ -53,11 +53,12 @@ Nine visits, simulated. Fitted with `lhs_joint_ecc.py`: depth shared, systematic
 eclipse time free through sqrt(e)cos(w) and sqrt(e)sin(w). Result 55.21 ppm, sd 13.47, over
 33,900 samples, with the eclipse 2.2 h later than the propagated ephemeris.
 
-`make_submission_ecc.py` built the LHS submission archive from `chains/lhs_slice_chain.npz`
-(33,900 samples, 48 columns) and set the LHS form text. The script that produced that chain
-file was overwritten later in the competition and no longer exists, so the chain itself is
-included here instead. `lhs_joint_ecc.py` is the same model under a different configuration
-and gives 52.05 ppm with sd 17.01, so it does not reproduce the 55.21 figure on its own.
+`lhs_joint_ecc.py` produces `chains/lhs_joint_ecc_chain.npz`, 79,200 samples, median 52.05
+ppm. `lhs_slice.py` then keeps the rows with the eclipse offset `dt_h` between 2.17 and 2.23
+hours, which is the joint timing solution, leaving 33,900 samples at 55.21 ppm with sd 13.47.
+`make_submission_ecc.py` builds the LHS submission archive from that and sets the LHS form
+text. Both chain files are in `chains/` because the fits are not seeded and cannot be
+regenerated bit for bit; `lhs_slice.py` does regenerate the slice exactly from the parent.
 `chains/cand_v15_hedge.zip` is likewise included because the builders below start from it and
 its own producer is gone.
 
