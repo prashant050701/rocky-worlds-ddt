@@ -70,6 +70,9 @@ An earlier pair, refs 54367527 and 54756886, both scored 3.320 and 3.895.
 Both boards were driven by the LHS marginal. The ranking says nothing about the GJ analysis
 in this repository.
 
+I think the metric is Wasserstein-1 on the first 10,000 rows of `depth_ecl` against a hidden
+reference. That is inferred from how submissions scored, not from anything stated.
+
 ## Sampling is not seeded
 
 Walker initialisation is seeded with `np.random.default_rng(20260828 + aperture)`. The
