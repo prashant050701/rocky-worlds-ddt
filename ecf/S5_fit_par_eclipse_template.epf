@@ -1,0 +1,27 @@
+# Stage 5 Fit Parameters: secondary eclipse (MIRI F1500W)
+# Free? can be free, fixed, shared, or independent (independent = per-visit in a multwhite joint fit)
+# PriorType: U (uniform: Par1=lower, Par2=upper), N (normal: Par1=mean, Par2=sigma)
+
+# ** Eclipse depth (shared across all eclipses of this target) **
+fp           0.0003         'shared'        0            0.005        U
+
+# ** Orbital parameters (fixed to literature) **
+rp           {RP}           'fixed'
+per          {PER}          'fixed'
+t0           {T0}           'fixed'
+inc          {INC}          'fixed'
+a            {A}            'fixed'
+ecc          0.0            'fixed'
+w            90.            'fixed'
+
+# ** Limb darkening (uniform for an eclipse) **
+limb_dark   'uniform'       'independent'
+
+# ** Systematics per visit **
+c0           1.0            'independent'   0.9          1.1          U
+c1           0.0            'independent'   -0.1         0.1          U
+r0           0.0            'independent'   -0.1         0.1          U
+r1           50.0           'independent'   0.0          1000.0       U
+
+# ** White noise per visit **
+scatter_mult 1.1            'independent'   0.8          5.0          U

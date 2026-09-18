@@ -1,0 +1,4 @@
+LADDER autocorr tau_depth=393.7 retained_steps=90000 n_tau=228.6 acc=0.130
+LADDER ap=4 eclipses=[1, 2, 3, 4] ptp_MAD=[699, 679, 710, 709]
+LADDER depth 124.59 -14.54 +14.65  mean 124.62 sd 14.79  nsamp 1782000
+DONE

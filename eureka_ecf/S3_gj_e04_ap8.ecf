@@ -1,0 +1,46 @@
+# Eureka! Control File for Stage 3: Aperture Photometry (MIRI F1500W)
+
+ncpu            4
+nfiles          100
+max_memory      0.5
+indep_batches   False
+suffix          calints
+
+calibrated_spectra  False
+
+ywindow         None
+xwindow         None
+dqmask          True
+
+ff_outlier      True
+bg_thresh       [5,5]
+interp_method   linear
+
+centroid_method fgc
+ctr_guess       'fits'
+ctr_cutout_size 10
+centroid_tech   com
+gauss_frame     15
+
+phot_method     photutils
+aperture_edge   exact
+aperture_shape  circle
+moving_centroid False
+skip_apphot_bg  False
+photap          8
+skyin           12
+skywidth        20
+
+isplots_S3      3
+nplots          5
+testing_S3      False
+hide_plots      True
+save_output     True
+save_fluxdata   False
+verbose         True
+
+pmap                1348
+
+topdir          /
+inputdir        /home/divyansh/PycharmProjects/DDTChallenge/fulldata/eureka/gj_e04/S2/S2_2026-07-04_gj_e04_run1
+outputdir       /home/divyansh/PycharmProjects/DDTChallenge/fulldata/eureka/gj_e04/S3_ap8

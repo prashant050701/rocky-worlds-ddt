@@ -1,0 +1,60 @@
+# Eureka! Control File for Stage 5: Lightcurve Fitting (secondary eclipse, joint multi-visit)
+
+ncpu            4
+
+multwhite       {MULTWHITE}
+
+allapers        False
+
+manual_clip     None
+
+fit_par         {FIT_PAR}
+fit_method      [emcee]
+run_myfuncs     [batman_ecl, expramp, polynomial]
+compute_ltt     False
+force_positivity False
+
+use_generate_ld      None
+ld_file              None
+ld_file_white        None
+recenter_ld_prior    True
+
+spotcon_file              None
+spotcon_file_white        None
+recenter_spotcon_prior    True
+
+old_fitparams   None
+
+lsq_method      Powell
+lsq_tol         1e-7
+lsq_maxiter     None
+
+old_chain       None
+lsq_first       True
+run_nsteps      4000
+run_nwalkers    200
+run_nburn       1500
+
+run_nlive       'min'
+run_bound       'multi'
+run_sample      'auto'
+run_tol         0.01
+run_dynamic     False
+run_nlive_batch 'auto'
+run_pfrac        0.5
+
+kernel_inputs   ['time']
+kernel_class    ['Matern32']
+GP_package      'celerite'
+
+interp          False
+
+isplots_S5      5
+nbin_plot       None
+hide_plots      True
+verbose         True
+
+topdir          {TOPDIR}
+inputdir        {INPUTDIR}
+outputdir       {OUTPUTDIR}
+inputdirlist    {INPUTDIRLIST}

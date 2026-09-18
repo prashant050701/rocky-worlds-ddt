@@ -1,0 +1,14 @@
+# Eureka! Control File for Stage 2: Imaging Calibration (MIRI photometry)
+
+suffix              rateints
+
+skip_flat_field     True
+skip_photom         True
+
+hide_plots          True
+
+pmap                1348
+
+topdir              /
+inputdir            /home/divyansh/PycharmProjects/DDTChallenge/fulldata/eureka/lhs_e09/S1/S1_2026-07-04_lhs_e09_run1/
+outputdir           /home/divyansh/PycharmProjects/DDTChallenge/fulldata/eureka/lhs_e09/S2

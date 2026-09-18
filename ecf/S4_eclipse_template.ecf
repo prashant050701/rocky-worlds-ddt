@@ -1,0 +1,35 @@
+# Eureka! Control File for Stage 4: Generate Lightcurves (MIRI photometry, white only)
+
+nspecchan       None
+compute_white   True
+s4_order        None
+wave_min        None
+wave_max        None
+wave_input      None
+allapers        False
+
+mad_sigma       7
+
+recordDrift     False
+correctDrift    False
+
+clip_unbinned   False
+clip_binned     True
+sigma           10
+box_width       31
+maxiters        5
+boundary        fill
+fill_value      mask
+
+compute_ld      False
+
+isplots_S4      3
+vmin            0.97
+vmax            1.03
+time_axis       'y'
+hide_plots      True
+verbose         True
+
+topdir          {TOPDIR}
+inputdir        {INPUTDIR}
+outputdir       {OUTPUTDIR}
