@@ -1,7 +1,7 @@
 import numpy as np
 
-PARENT = "chains/lhs_joint_ecc_chain.npz"
-OUT = "chains/lhs_slice_chain.npz"
+PARENT = "lhs_joint_ecc_chain.npz"
+OUT = "lhs_slice_chain.npz"
 DT_LO = 2.17
 DT_HI = 2.23
 

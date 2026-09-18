@@ -1,6 +1,3 @@
 __pycache__/
 *.pyc
-*.npz
-*.h5
-*.zip
-chains/lhs_slice_chain.npz
+lhs_slice_chain.npz
